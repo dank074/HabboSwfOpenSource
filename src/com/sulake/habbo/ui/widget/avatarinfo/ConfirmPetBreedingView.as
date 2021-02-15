@@ -134,7 +134,7 @@
             var _local_3:String = this._Str_2879.getValue(k);
             if (_local_3 != null)
             {
-                this._Str_3060(_arg_2, _local_3);
+                this.updatePreviewImage(_arg_2, _local_3);
             }
         }
 
@@ -168,9 +168,9 @@
             this.addClickListener(CANCEL_BUTTON);
             this.enable();
             var k:BitmapData = this._Str_3993(this._roomUserData.figure, "preview_image");
-            this._Str_3060(((k != null) ? k : new BitmapData(10, 10)), "preview_image");
+            this.updatePreviewImage(((k != null) ? k : new BitmapData(10, 10)), "preview_image");
             k = this._Str_3993(this._petData2.figure, "preview_image2");
-            this._Str_3060(((k != null) ? k : new BitmapData(10, 10)), "preview_image2");
+            this.updatePreviewImage(((k != null) ? k : new BitmapData(10, 10)), "preview_image2");
             var _local_2:IBitmapWrapperWindow = (this._windowManager.buildFromXML((this._assets.getAssetByName("pet_breeding_pet_preview_xml").content as XML)) as IBitmapWrapperWindow);
             var _local_3:int = 1;
             for each (_local_4 in this._rarityCategories)
@@ -189,7 +189,7 @@
                         _local_5.addListItem(_local_8);
                     }
                     k = this._Str_3993(_local_7.figureString, _local_8.name, 64);
-                    this._Str_3060(((k != null) ? k : new BitmapData(25, 25, true, 0xFFFFFF)), _local_8.name);
+                    this.updatePreviewImage(((k != null) ? k : new BitmapData(25, 25, true, 0xFFFFFF)), _local_8.name);
                 }
                 _local_3++;
             }
@@ -217,7 +217,7 @@
             }
         }
 
-        private function _Str_3060(k:BitmapData, _arg_2:String):void
+        private function updatePreviewImage(k:BitmapData, _arg_2:String):void
         {
             if (((!(this._window)) || (!(k))))
             {

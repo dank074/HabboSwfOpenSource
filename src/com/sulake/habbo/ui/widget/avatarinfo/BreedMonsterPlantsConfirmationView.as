@@ -128,7 +128,7 @@
             var _local_3:String = this._Str_2879.getValue(k);
             if (_local_3 != null)
             {
-                this._Str_3060(_arg_2, _local_3);
+                this.updatePreviewImage(_arg_2, _local_3);
             }
         }
 
@@ -175,9 +175,9 @@
                     break;
             }
             var k:BitmapData = this._Str_3993(this._roomUserData.figure, "preview_image");
-            this._Str_3060(((k != null) ? k : new BitmapData(10, 10)), "preview_image");
+            this.updatePreviewImage(((k != null) ? k : new BitmapData(10, 10)), "preview_image");
             k = this._Str_3993(this._petData2.figure, "preview_image2");
-            this._Str_3060(((k != null) ? k : new BitmapData(10, 10)), "preview_image2");
+            this.updatePreviewImage(((k != null) ? k : new BitmapData(10, 10)), "preview_image2");
             this.arrangeListItems();
             this._window.invalidate();
         }
@@ -201,7 +201,7 @@
             }
         }
 
-        private function _Str_3060(k:BitmapData, _arg_2:String):void
+        private function updatePreviewImage(k:BitmapData, _arg_2:String):void
         {
             var _local_6:BitmapData;
             if (((!(this._window)) || (!(k))))

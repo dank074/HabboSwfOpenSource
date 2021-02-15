@@ -85,7 +85,7 @@
             this._window.findChildByName("pet.name").caption = this._petData.name;
             this._window.findChildByName("pet.raritycategory").caption = (("${breedpets.nestbreeding.success.raritycategory." + this._rarityCategory) + "}");
             var k:BitmapData = this._Str_3993(this._petData.figure, "pet_image");
-            this._Str_3060(((k != null) ? k : new BitmapData(10, 10)), "pet_image");
+            this.updatePreviewImage(((k != null) ? k : new BitmapData(10, 10)), "pet_image");
             this._window.invalidate();
         }
 
@@ -148,7 +148,7 @@
             var _local_3:String = this._imageCallbackIds.getValue(k);
             if (_local_3 != null)
             {
-                this._Str_3060(_arg_2, _local_3);
+                this.updatePreviewImage(_arg_2, _local_3);
             }
         }
 
@@ -156,7 +156,7 @@
         {
         }
 
-        private function _Str_3060(k:BitmapData, _arg_2:String):void
+        private function updatePreviewImage(k:BitmapData, _arg_2:String):void
         {
             if (((!(this._window)) || (!(k))))
             {

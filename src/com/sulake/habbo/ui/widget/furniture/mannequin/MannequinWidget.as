@@ -191,7 +191,7 @@
                 default:
                     throw (new Error(("Invalid type for mannequin widget content apply: " + k)));
             }
-            this._Str_3060(_local_8, _local_2);
+            this.updatePreviewImage(_local_8, _local_2);
         }
 
         private function createWindow(k:int):IWindowContainer
@@ -284,7 +284,7 @@
             }
         }
 
-        private function _Str_3060(k:IWindowContainer, _arg_2:BitmapData):void
+        private function updatePreviewImage(k:IWindowContainer, _arg_2:BitmapData):void
         {
             var _local_6:BitmapData;
             if (((!(k)) || (!(_arg_2))))

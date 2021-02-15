@@ -13,12 +13,12 @@
 
     public class BadgeEditorPartItem implements IDisposable, IAssetReceiver 
     {
-        public static var _Str_13754:int = 0;
-        public static var _Str_13419:int = 1;
-        public static var _Str_6696:Number = 39;
-        public static var _Str_6533:Number = 39;
-        public static var _Str_12924:Number = 13;
-        public static var _Str_15025:Number = 13;
+        public static var BASE_PART:int = 0;
+        public static var LAYER_PART:int = 1;
+        public static var IMAGE_WIDTH:Number = 39;
+        public static var IMAGE_HEIGHT:Number = 39;
+        public static var CELL_WIDTH:Number = 13;
+        public static var CELL_HEIGHT:Number = 13;
 
         private var _manager:HabboGroupsManager;
         private var _parentCtrl:BadgeSelectPartCtrl;
@@ -45,7 +45,7 @@
             this._parentCtrl = _arg_2;
             this._type = _arg_4;
             this._sourceUrl = this._manager.getProperty("image.library.badgepart.url");
-            this._composite = new BitmapData(_Str_6696, _Str_6533);
+            this._composite = new BitmapData(IMAGE_WIDTH, IMAGE_HEIGHT);
             if (_arg_5 == null)
             {
                 this._isLoaded = true;
@@ -57,7 +57,7 @@
                 this._fileName = _arg_5.fileName.replace(".gif", "").replace(".png", "");
                 this._maskFileName = _arg_5._Str_22901.replace(".gif", "").replace(".png", "");
                 this._hasMask = (this._maskFileName.length > 0);
-                this._composite = new BitmapData(_Str_6696, _Str_6533);
+                this._composite = new BitmapData(IMAGE_WIDTH, IMAGE_HEIGHT);
                 this._fileName = (((this._sourceUrl + "badgepart_") + this._fileName) + ".png");
                 this._maskFileName = (((this._sourceUrl + "badgepart_") + this._maskFileName) + ".png");
                 this._manager.windowManager.resourceManager.retrieveAsset(this._fileName, this);
@@ -70,7 +70,7 @@
             return this._disposed;
         }
 
-        public function get _Str_3324():int
+        public function get partIndex():int
         {
             return this._partIndex;
         }
@@ -86,7 +86,7 @@
             {
                 this._mask = (k.content as BitmapData);
             }
-            this._Str_22804();
+            this.checkIsImageLoaded();
         }
 
         public function dispose():void
@@ -117,7 +117,7 @@
             }
         }
 
-        private function _Str_22804():void
+        private function checkIsImageLoaded():void
         {
             if (this._image == null)
             {
@@ -128,7 +128,7 @@
                 return;
             }
             this._isLoaded = true;
-            if (this._type == _Str_13754)
+            if (this._type == BASE_PART)
             {
                 this._parentCtrl._Str_25511(this);
             }
@@ -154,7 +154,7 @@
             this._colorTransform.blueMultiplier = (_local_2.blue / 0xFF);
             var _local_3:Point = this.getPosition(k);
             this._composite.dispose();
-            this._composite = new BitmapData(_Str_6696, _Str_6533, true, 0);
+            this._composite = new BitmapData(IMAGE_WIDTH, IMAGE_HEIGHT, true, 0);
             this._composite.copyPixels(this._image, this._image.rect, _local_3);
             this._composite.colorTransform(this._composite.rect, this._colorTransform);
             if (this._hasMask)
@@ -166,23 +166,23 @@
 
         private function getPosition(k:BadgeLayerOptions):Point
         {
-            var _local_2:Number = (((_Str_12924 * k._Str_7460) + (_Str_12924 / 2)) - (this._image.width / 2));
-            var _local_3:Number = (((_Str_15025 * k._Str_8051) + (_Str_15025 / 2)) - (this._image.height / 2));
+            var _local_2:Number = (((CELL_WIDTH * k._Str_7460) + (CELL_WIDTH / 2)) - (this._image.width / 2));
+            var _local_3:Number = (((CELL_HEIGHT * k._Str_8051) + (CELL_HEIGHT / 2)) - (this._image.height / 2));
             if (_local_2 < 0)
             {
                 _local_2 = 0;
             }
-            if ((_local_2 + this._image.width) > _Str_6696)
+            if ((_local_2 + this._image.width) > IMAGE_WIDTH)
             {
-                _local_2 = (_Str_6696 - this._image.width);
+                _local_2 = (IMAGE_WIDTH - this._image.width);
             }
             if (_local_3 < 0)
             {
                 _local_3 = 0;
             }
-            if ((_local_3 + this._image.height) > _Str_6533)
+            if ((_local_3 + this._image.height) > IMAGE_HEIGHT)
             {
-                _local_3 = (_Str_6533 - this._image.height);
+                _local_3 = (IMAGE_HEIGHT - this._image.height);
             }
             return new Point(Math.floor(_local_2), Math.floor(_local_3));
         }

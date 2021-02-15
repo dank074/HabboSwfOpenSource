@@ -31,7 +31,7 @@
         public function BadgeEditorCtrl(k:HabboGroupsManager)
         {
             this._manager = k;
-            this._manager.events.addEventListener(HabboGroupsEditorData.HGE_EDIT_INFO, this._Str_23748);
+            this._manager.events.addEventListener(HabboGroupsEditorData.HGE_EDIT_INFO, this.onHabboGroupsEditorData);
             this._badgeSelectPartCtrl = new BadgeSelectPartCtrl(this._manager, this);
             this._layers = new Vector.<BadgeLayerCtrl>();
             this._layers.push(new BadgeLayerCtrl(this._manager, this, 0));
@@ -46,27 +46,27 @@
             return this._disposed;
         }
 
-        public function get _Str_23796():IWindowContainer
+        public function get partEditContainer():IWindowContainer
         {
             return this._partEditContainer;
         }
 
-        public function get _Str_20634():IWindowContainer
+        public function get partSelectContainer():IWindowContainer
         {
             return this._partSelectContainer;
         }
 
-        public function get _Str_5636():IItemGridWindow
+        public function get partSelectGrid():IItemGridWindow
         {
             return this._partSelectGrid;
         }
 
-        public function get _Str_21658():BadgeLayerOptions
+        public function get currentLayerOptions():BadgeLayerOptions
         {
             return this._currentLayerOptions;
         }
 
-        public function get _Str_19999():BadgeSelectPartCtrl
+        public function get badgeSelectPartCtrl():BadgeSelectPartCtrl
         {
             return this._badgeSelectPartCtrl;
         }
@@ -131,7 +131,7 @@
             }
         }
 
-        public function _Str_23748(k:HabboGroupsEditorData):void
+        public function onHabboGroupsEditorData(k:HabboGroupsEditorData):void
         {
             this._badgeSelectPartCtrl.loadData();
             this.createWindow(null, null);
@@ -173,11 +173,11 @@
                 this._layers[_local_4].createWindow();
                 _local_4++;
             }
-            this._Str_15567(this._badgeInitData);
+            this.resetLayerOptions(this._badgeInitData);
             this._parentWindow.addChild(this._window);
         }
 
-        public function _Str_15567(k:Array):void
+        public function resetLayerOptions(k:Array):void
         {
             if (!this.isIntialized)
             {
@@ -196,13 +196,13 @@
             var _local_2:int;
             while (_local_2 < this._layers.length)
             {
-                this._layers[_local_2].setLayerOptions(this._Str_23257(_local_2));
+                this._layers[_local_2].setLayerOptions(this.createLayerOption(_local_2));
                 this._layers[_local_2].updateSelectedPart();
                 _local_2++;
             }
         }
 
-        private function _Str_23257(k:int):BadgeLayerOptions
+        private function createLayerOption(k:int):BadgeLayerOptions
         {
             var _local_2:int;
             var _local_3:GuildBadgeSettings = (this._badgeInitData[k] as GuildBadgeSettings);
@@ -227,7 +227,7 @@
                 {
                     if (this._manager.guildEditorData._Str_11328[_local_2].id == _local_3.partId)
                     {
-                        _local_4._Str_3324 = _local_2;
+                        _local_4.partIndex = _local_2;
                         break;
                     }
                     _local_2++;
@@ -240,7 +240,7 @@
                 {
                     if (this._manager.guildEditorData._Str_12125[_local_2].id == _local_3.partId)
                     {
-                        _local_4._Str_3324 = _local_2;
+                        _local_4.partIndex = _local_2;
                         break;
                     }
                     _local_2++;
@@ -249,25 +249,25 @@
             return _local_4;
         }
 
-        public function _Str_24085(k:BadgeSelectPartCtrl):void
+        public function onPartSelected(k:BadgeSelectPartCtrl):void
         {
-            this._currentLayerOptions._Str_3324 = k._Str_21609();
-            this._layers[this._currentLayerOptions._Str_3617].setLayerOptions(this._Str_21658);
+            this._currentLayerOptions.partIndex = k._Str_21609();
+            this._layers[this._currentLayerOptions._Str_3617].setLayerOptions(this.currentLayerOptions);
             this._partEditContainer.visible = true;
             this._partSelectContainer.visible = false;
         }
 
-        public function _Str_25349(k:BadgeSelectPartCtrl):void
+        public function onPartHover(k:BadgeSelectPartCtrl):void
         {
-            this._Str_3060(k.layerOptions);
+            this.updatePreviewImage(k.layerOptions);
         }
 
-        public function _Str_23517(k:BadgeLayerCtrl):void
+        public function onPartChanged(k:BadgeLayerCtrl):void
         {
-            this._Str_3060(k.layerOptions);
+            this.updatePreviewImage(k.layerOptions);
         }
 
-        public function _Str_3060(k:BadgeLayerOptions):void
+        public function updatePreviewImage(k:BadgeLayerOptions):void
         {
             var _local_2:BitmapData = this._badgeSelectPartCtrl._Str_21949(k);
             if (_local_2 != null)
@@ -281,7 +281,7 @@
             }
         }
 
-        public function _Str_24453(k:BadgeLayerCtrl):void
+        public function onShowSelectPart(k:BadgeLayerCtrl):void
         {
             var _local_2:BadgeLayerOptions = this._currentLayerOptions;
             this._currentLayerOptions = k.layerOptions.clone();
@@ -297,11 +297,11 @@
             this._partSelectContainer.visible = true;
         }
 
-        public function _Str_23176():void
+        public function onViewChange():void
         {
             if (((this.isIntialized) && (this._partSelectContainer.visible)))
             {
-                this._Str_3060(this._currentLayerOptions);
+                this.updatePreviewImage(this._currentLayerOptions);
                 this._partEditContainer.visible = true;
                 this._partSelectContainer.visible = false;
             }
@@ -315,13 +315,13 @@
             var k:Array = new Array();
             for each (_local_2 in this._layers)
             {
-                _local_3 = this._Str_19168(_local_2.layerOptions);
+                _local_3 = this.getLayerPartId(_local_2.layerOptions);
                 if (_local_3 < 0)
                 {
                 }
                 else
                 {
-                    _local_4 = this._Str_21488(_local_2.layerOptions);
+                    _local_4 = this.getLayerColorId(_local_2.layerOptions);
                     if (_local_4 < 0)
                     {
                     }
@@ -336,7 +336,7 @@
             return k;
         }
 
-        public function get _Str_23897():int
+        public function get primaryColorIndex():int
         {
             var _local_2:BadgeLayerCtrl;
             if (this._layers == null)
@@ -346,7 +346,7 @@
             var k:int;
             for each (_local_2 in this._layers)
             {
-                if (((this._Str_19168(_local_2.layerOptions) < 0) || (this._Str_21488(_local_2.layerOptions) < 0)))
+                if (((this.getLayerPartId(_local_2.layerOptions) < 0) || (this.getLayerColorId(_local_2.layerOptions) < 0)))
                 {
                 }
                 else
@@ -357,7 +357,7 @@
             return k;
         }
 
-        public function get _Str_24812():int
+        public function get secondaryColorIndex():int
         {
             if (this._layers != null)
             {
@@ -366,10 +366,10 @@
             return 0;
         }
 
-        public function _Str_23597():BitmapData
+        public function getBadgeBitmap():BitmapData
         {
             var _local_2:IBitmapWrapperWindow;
-            var k:BitmapData = new BitmapData(BadgeEditorPartItem._Str_6696, BadgeEditorPartItem._Str_6533, true, 15329761);
+            var k:BitmapData = new BitmapData(BadgeEditorPartItem.IMAGE_WIDTH, BadgeEditorPartItem.IMAGE_HEIGHT, true, 15329761);
             for each (_local_2 in this._badgePreviewImages)
             {
                 if (_local_2.visible)
@@ -380,28 +380,28 @@
             return k;
         }
 
-        private function _Str_19168(k:BadgeLayerOptions):int
+        private function getLayerPartId(k:BadgeLayerOptions):int
         {
-            if (k._Str_3324 < 0)
+            if (k.partIndex < 0)
             {
                 return -1;
             }
             if (k._Str_3617 == BadgeLayerCtrl._Str_5392)
             {
-                if (k._Str_3324 >= this._manager.guildEditorData._Str_11328.length)
+                if (k.partIndex >= this._manager.guildEditorData._Str_11328.length)
                 {
                     return -1;
                 }
-                return this._manager.guildEditorData._Str_11328[k._Str_3324].id;
+                return this._manager.guildEditorData._Str_11328[k.partIndex].id;
             }
-            if (k._Str_3324 >= this._manager.guildEditorData._Str_12125.length)
+            if (k.partIndex >= this._manager.guildEditorData._Str_12125.length)
             {
                 return -1;
             }
-            return this._manager.guildEditorData._Str_12125[k._Str_3324].id;
+            return this._manager.guildEditorData._Str_12125[k.partIndex].id;
         }
 
-        private function _Str_21488(k:BadgeLayerOptions):int
+        private function getLayerColorId(k:BadgeLayerOptions):int
         {
             if (((k.colorIndex < 0) || (k.colorIndex >= this._manager.guildEditorData._Str_9008.length)))
             {

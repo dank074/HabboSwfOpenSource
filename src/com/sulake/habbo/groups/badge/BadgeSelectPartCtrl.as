@@ -46,9 +46,9 @@
             var k:BadgeEditorPartItem;
             if (!this._disposed)
             {
-                if (((!(this._parentCtrl._Str_5636 == null)) && (this._parentCtrl._Str_5636.numGridItems > 0)))
+                if (((!(this._parentCtrl.partSelectGrid == null)) && (this._parentCtrl.partSelectGrid.numGridItems > 0)))
                 {
-                    this._parentCtrl._Str_5636.destroyGridItems();
+                    this._parentCtrl.partSelectGrid.destroyGridItems();
                 }
                 if (this._badgeBaseParts)
                 {
@@ -83,9 +83,9 @@
         public function _Str_21609():int
         {
             var k:int = -1;
-            if ((((!(this._layerOptions == null)) && (!(this._parentCtrl._Str_5636 == null))) && (!(this._selectedItem == null))))
+            if ((((!(this._layerOptions == null)) && (!(this._parentCtrl.partSelectGrid == null))) && (!(this._selectedItem == null))))
             {
-                k = this._parentCtrl._Str_5636.getGridItemIndex(this._selectedItem);
+                k = this._parentCtrl.partSelectGrid.getGridItemIndex(this._selectedItem);
                 if (((!(k == -1)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392))))
                 {
                     k--;
@@ -104,13 +104,13 @@
             this._badgeBaseParts = new Vector.<BadgeEditorPartItem>();
             for each (k in this._manager.guildEditorData._Str_11328)
             {
-                this._badgeBaseParts.push(new BadgeEditorPartItem(this._manager, this, this._badgeBaseParts.length, BadgeEditorPartItem._Str_13754, k));
+                this._badgeBaseParts.push(new BadgeEditorPartItem(this._manager, this, this._badgeBaseParts.length, BadgeEditorPartItem.BASE_PART, k));
             }
             this._badgeLayerParts = new Vector.<BadgeEditorPartItem>();
-            this._badgeLayerParts.push(new BadgeEditorPartItem(this._manager, this, -1, BadgeEditorPartItem._Str_13419));
+            this._badgeLayerParts.push(new BadgeEditorPartItem(this._manager, this, -1, BadgeEditorPartItem.LAYER_PART));
             for each (k in this._manager.guildEditorData._Str_12125)
             {
-                this._badgeLayerParts.push(new BadgeEditorPartItem(this._manager, this, (this._badgeLayerParts.length - 1), BadgeEditorPartItem._Str_13419, k));
+                this._badgeLayerParts.push(new BadgeEditorPartItem(this._manager, this, (this._badgeLayerParts.length - 1), BadgeEditorPartItem.LAYER_PART, k));
             }
         }
 
@@ -119,20 +119,20 @@
             var k:BadgeEditorPartItem;
             this._selectedItem = null;
             this._chosenItem = null;
-            this._layerOptions = this._parentCtrl._Str_21658.clone();
-            this._parentCtrl._Str_5636.destroyGridItems();
+            this._layerOptions = this._parentCtrl.currentLayerOptions.clone();
+            this._parentCtrl.partSelectGrid.destroyGridItems();
             if (this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392)
             {
                 for each (k in this._badgeBaseParts)
                 {
-                    this._parentCtrl._Str_5636.addGridItem(this._Str_7360(k));
+                    this._parentCtrl.partSelectGrid.addGridItem(this._Str_7360(k));
                 }
             }
             else
             {
                 for each (k in this._badgeLayerParts)
                 {
-                    this._parentCtrl._Str_5636.addGridItem(this._Str_7360(k));
+                    this._parentCtrl.partSelectGrid.addGridItem(this._Str_7360(k));
                 }
             }
         }
@@ -148,9 +148,9 @@
         public function _Str_25511(k:BadgeEditorPartItem):void
         {
             var _local_2:IWindowContainer;
-            if ((((!(this._layerOptions == null)) && (this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392)) && (this._parentCtrl._Str_20634.visible)))
+            if ((((!(this._layerOptions == null)) && (this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392)) && (this._parentCtrl.partSelectContainer.visible)))
             {
-                _local_2 = (this._parentCtrl._Str_5636.getGridItemAt(k._Str_3324) as IWindowContainer);
+                _local_2 = (this._parentCtrl.partSelectGrid.getGridItemAt(k.partIndex) as IWindowContainer);
                 this._Str_17901(_local_2, k);
             }
         }
@@ -158,9 +158,9 @@
         public function _Str_22980(k:BadgeEditorPartItem):void
         {
             var _local_2:IWindowContainer;
-            if ((((!(this._layerOptions == null)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392))) && (this._parentCtrl._Str_20634.visible)))
+            if ((((!(this._layerOptions == null)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392))) && (this._parentCtrl.partSelectContainer.visible)))
             {
-                _local_2 = (this._parentCtrl._Str_5636.getGridItemAt((k._Str_3324 + 1)) as IWindowContainer);
+                _local_2 = (this._parentCtrl.partSelectGrid.getGridItemAt((k.partIndex + 1)) as IWindowContainer);
                 this._Str_17901(_local_2, k);
             }
         }
@@ -177,7 +177,7 @@
             }
             var _local_4:IBitmapWrapperWindow = (k.findChildByName("selected") as IBitmapWrapperWindow);
             _local_4.bitmap = this._manager.getButtonImage("badge_part_picker");
-            if (_arg_2._Str_3324 == this._layerOptions._Str_3324)
+            if (_arg_2.partIndex == this._layerOptions.partIndex)
             {
                 _local_4.visible = true;
                 this._chosenItem = _local_4;
@@ -212,8 +212,8 @@
                         {
                             _local_3.color = 14210761;
                         }
-                        this._layerOptions._Str_3324 = this._Str_21609();
-                        this._parentCtrl._Str_25349(this);
+                        this._layerOptions.partIndex = this._Str_21609();
+                        this._parentCtrl.onPartHover(this);
                     }
                 }
             }
@@ -229,28 +229,28 @@
                     this._chosenItem = (_local_4.findChildByName("selected") as IBitmapWrapperWindow);
                     this._chosenItem.visible = true;
                 }
-                this._parentCtrl._Str_24085(this);
+                this._parentCtrl.onPartSelected(this);
             }
         }
 
         public function _Str_21949(k:BadgeLayerOptions):BitmapData
         {
-            if (((k == null) || (k._Str_3324 < 0)))
+            if (((k == null) || (k.partIndex < 0)))
             {
                 return null;
             }
             if (k._Str_3617 == BadgeLayerCtrl._Str_5392)
             {
-                if (((!(this._badgeBaseParts == null)) && (k._Str_3324 < this._badgeBaseParts.length)))
+                if (((!(this._badgeBaseParts == null)) && (k.partIndex < this._badgeBaseParts.length)))
                 {
-                    return this._badgeBaseParts[k._Str_3324].getComposite(k);
+                    return this._badgeBaseParts[k.partIndex].getComposite(k);
                 }
             }
             else
             {
-                if (((!(this._badgeLayerParts == null)) && ((k._Str_3324 + 1) < this._badgeLayerParts.length)))
+                if (((!(this._badgeLayerParts == null)) && ((k.partIndex + 1) < this._badgeLayerParts.length)))
                 {
-                    return this._badgeLayerParts[(k._Str_3324 + 1)].getComposite(k);
+                    return this._badgeLayerParts[(k.partIndex + 1)].getComposite(k);
                 }
             }
             return null;

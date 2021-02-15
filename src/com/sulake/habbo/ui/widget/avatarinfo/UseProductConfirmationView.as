@@ -197,7 +197,7 @@
                 default:
                     throw (new Error(("Invalid type for use product confirmation content apply: " + k)));
             }
-            this._Str_3060(_local_2);
+            this.updatePreviewImage(_local_2);
             this._window.invalidate();
         }
 
@@ -401,7 +401,7 @@
             return this._widget.handler.roomEngine.getRoomObject(this._widget.handler.roomEngine.activeRoomId, k, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
         }
 
-        private function _Str_3060(k:BitmapData):void
+        private function updatePreviewImage(k:BitmapData):void
         {
             var _local_5:BitmapData;
             if (((!(this._window)) || (!(k))))
@@ -472,7 +472,7 @@
             }
             if (this._previewCallbackId == k)
             {
-                this._Str_3060(_arg_2);
+                this.updatePreviewImage(_arg_2);
                 this._previewCallbackId = 0;
             }
         }

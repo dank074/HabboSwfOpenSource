@@ -47,7 +47,7 @@
             {
                 return;
             }
-            var k:IItemListWindow = (this._parentCtrl._Str_23796.findChildByName(_Str_17304) as IItemListWindow);
+            var k:IItemListWindow = (this._parentCtrl.partEditContainer.findChildByName(_Str_17304) as IItemListWindow);
             this._layerWindow = (this._manager.getXmlWindow("badge_layer") as IWindowContainer);
             var _local_2:IWindowContainer = (this._layerWindow.findChildByName("preview_container") as IWindowContainer);
             this._partSelectImage = (_local_2.findChildByName("part_preview") as IBitmapWrapperWindow);
@@ -124,7 +124,7 @@
                 this._layerOptions.colorIndex = this._colorGridCtrl._Str_4246;
                 _local_2 = true;
             }
-            if (((_local_2) || (!(_local_3._Str_3324 == this._layerOptions._Str_3324))))
+            if (((_local_2) || (!(_local_3.partIndex == this._layerOptions.partIndex))))
             {
                 this.updateSelectedPart();
             }
@@ -138,9 +138,9 @@
         public function updateSelectedPart():void
         {
             var k:BitmapData;
-            if (this._parentCtrl._Str_19999)
+            if (this._parentCtrl.badgeSelectPartCtrl)
             {
-                k = this._parentCtrl._Str_19999._Str_21949(this.layerOptions);
+                k = this._parentCtrl.badgeSelectPartCtrl._Str_21949(this.layerOptions);
             }
             if (k == null)
             {
@@ -149,7 +149,7 @@
             this._partSelectImage.bitmap.dispose();
             this._partSelectImage.bitmap = new BitmapData(k.width, k.height);
             this._partSelectImage.bitmap.copyPixels(k, k.rect, new Point());
-            this._parentCtrl._Str_23517(this);
+            this._parentCtrl.onPartChanged(this);
         }
 
         private function _Str_21129(k:Boolean=true):void
@@ -180,7 +180,7 @@
             {
                 return;
             }
-            this._parentCtrl._Str_24453(this);
+            this._parentCtrl.onShowSelectPart(this);
         }
 
         public function _Str_24879(k:ColorGridCtrl):void

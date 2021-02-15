@@ -129,7 +129,7 @@
             var _local_3:String = this._Str_2879.getValue(k);
             if (_local_3 != null)
             {
-                this._Str_3060(_arg_2, _local_3);
+                this.updatePreviewImage(_arg_2, _local_3);
             }
         }
 
@@ -242,9 +242,9 @@
             this.addClickListener(PREVIEW_IMAGE_REGION);
             this.addClickListener(ELEM_PREVIEW_IMAGE_REGION2);
             var _local_7:BitmapData = this._Str_3993(k.id, PREVIEW_IMAGE);
-            this._Str_3060(((_local_7 != null) ? _local_7 : new BitmapData(10, 10)), PREVIEW_IMAGE);
+            this.updatePreviewImage(((_local_7 != null) ? _local_7 : new BitmapData(10, 10)), PREVIEW_IMAGE);
             _local_7 = this._Str_3993(k.id, ELEM_PREVIEW_IMAGE2);
-            this._Str_3060(((_local_7 != null) ? _local_7 : new BitmapData(10, 10)), ELEM_PREVIEW_IMAGE2);
+            this.updatePreviewImage(((_local_7 != null) ? _local_7 : new BitmapData(10, 10)), ELEM_PREVIEW_IMAGE2);
             this.arrangeListItems();
             this._window.invalidate();
         }
@@ -280,7 +280,7 @@
             }
         }
 
-        private function _Str_3060(k:BitmapData, _arg_2:String):void
+        private function updatePreviewImage(k:BitmapData, _arg_2:String):void
         {
             var _local_6:BitmapData;
             if (((!(this._window)) || (!(k))))

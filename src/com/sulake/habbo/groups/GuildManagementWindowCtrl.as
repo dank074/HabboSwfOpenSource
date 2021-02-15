@@ -178,7 +178,7 @@
                 if (!this._badgeEditorCtrl.isIntialized)
                 {
                     this._badgeEditorCtrl.createWindow(this.getStepContainer(VIEW_BADGE), this._data.badgeSettings);
-                    this._badgeEditorCtrl._Str_15567(this._data.badgeSettings);
+                    this._badgeEditorCtrl.resetLayerOptions(this._data.badgeSettings);
                 }
                 this._window.findChildByName("reset_badge").visible = this._data.exists;
             }
@@ -197,7 +197,7 @@
                     }
                     else
                     {
-                        this._primaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingPrimaryColorId(this._badgeEditorCtrl._Str_23897));
+                        this._primaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingPrimaryColorId(this._badgeEditorCtrl.primaryColorIndex));
                     }
                 }
                 if (!this._secondaryColorCtrl.isInitialized)
@@ -209,7 +209,7 @@
                     }
                     else
                     {
-                        this._secondaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingSecondaryColorId(this._badgeEditorCtrl._Str_24812));
+                        this._secondaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingSecondaryColorId(this._badgeEditorCtrl.secondaryColorIndex));
                     }
                 }
                 this._window.findChildByName("reset_colors").visible = this._data.exists;
@@ -263,7 +263,7 @@
             }
             if (this._badgeEditorCtrl.isIntialized)
             {
-                k = this._badgeEditorCtrl._Str_23597();
+                k = this._badgeEditorCtrl.getBadgeBitmap();
                 _local_2 = (this._window.findChildByName("badge_preview_image") as IBitmapWrapperWindow);
                 if (((!(k == null)) && (!(_local_2 == null))))
                 {
@@ -384,7 +384,7 @@
             ITextWindow(this._window.findChildByName("name_txt")).text = this._data.groupName;
             ITextWindow(this._window.findChildByName("desc_txt")).text = this._data.groupDesc;
             this.prepareRoomSelection();
-            this._badgeEditorCtrl._Str_15567(this._data.badgeSettings);
+            this._badgeEditorCtrl.resetLayerOptions(this._data.badgeSettings);
             this._primaryColorCtrl._Str_6434(this._data.primaryColorId);
             this._secondaryColorCtrl._Str_6434(this._data.secondaryColorId);
             this._settingsCtrl.refresh(this._data);
@@ -425,7 +425,7 @@
         {
             if (((k.type == WindowMouseEvent.CLICK) && (this._badgeEditorCtrl.isIntialized)))
             {
-                this._badgeEditorCtrl._Str_15567(this._data.badgeSettings);
+                this._badgeEditorCtrl.resetLayerOptions(this._data.badgeSettings);
             }
         }
 
@@ -564,7 +564,7 @@
                     return true;
                 case VIEW_BADGE:
                     _local_3 = ((this._badgeEditorCtrl.isIntialized) ? this._badgeEditorCtrl.getBadgeSettings() : this._data.badgeSettings);
-                    this._badgeEditorCtrl._Str_23176();
+                    this._badgeEditorCtrl.onViewChange();
                     return true;
                 case VIEW_COLORS:
                     if (((this._primaryColorCtrl._Str_10058() == null) || (this._secondaryColorCtrl._Str_10058() == null)))

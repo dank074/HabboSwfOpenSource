@@ -58,12 +58,12 @@
             this._layerIndex = k;
         }
 
-        public function get _Str_3324():int
+        public function get partIndex():int
         {
             return this._partIndex;
         }
 
-        public function set _Str_3324(k:int):void
+        public function set partIndex(k:int):void
         {
             this._partIndex = k;
         }
