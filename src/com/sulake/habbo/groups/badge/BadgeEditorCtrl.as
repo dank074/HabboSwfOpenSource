@@ -220,7 +220,7 @@
                 }
                 _local_2++;
             }
-            if (k == BadgeLayerCtrl._Str_5392)
+            if (k == BadgeLayerCtrl.BASE_LAYER_INDEX)
             {
                 _local_2 = 0;
                 while (_local_2 < this._manager.guildEditorData._Str_11328.length)
@@ -386,7 +386,7 @@
             {
                 return -1;
             }
-            if (k._Str_3617 == BadgeLayerCtrl._Str_5392)
+            if (k._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX)
             {
                 if (k.partIndex >= this._manager.guildEditorData._Str_11328.length)
                 {

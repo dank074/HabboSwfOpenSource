@@ -86,7 +86,7 @@
             if ((((!(this._layerOptions == null)) && (!(this._parentCtrl.partSelectGrid == null))) && (!(this._selectedItem == null))))
             {
                 k = this._parentCtrl.partSelectGrid.getGridItemIndex(this._selectedItem);
-                if (((!(k == -1)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392))))
+                if (((!(k == -1)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX))))
                 {
                     k--;
                 }
@@ -121,7 +121,7 @@
             this._chosenItem = null;
             this._layerOptions = this._parentCtrl.currentLayerOptions.clone();
             this._parentCtrl.partSelectGrid.destroyGridItems();
-            if (this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392)
+            if (this._layerOptions._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX)
             {
                 for each (k in this._badgeBaseParts)
                 {
@@ -148,7 +148,7 @@
         public function _Str_25511(k:BadgeEditorPartItem):void
         {
             var _local_2:IWindowContainer;
-            if ((((!(this._layerOptions == null)) && (this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392)) && (this._parentCtrl.partSelectContainer.visible)))
+            if ((((!(this._layerOptions == null)) && (this._layerOptions._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX)) && (this._parentCtrl.partSelectContainer.visible)))
             {
                 _local_2 = (this._parentCtrl.partSelectGrid.getGridItemAt(k.partIndex) as IWindowContainer);
                 this._Str_17901(_local_2, k);
@@ -158,7 +158,7 @@
         public function _Str_22980(k:BadgeEditorPartItem):void
         {
             var _local_2:IWindowContainer;
-            if ((((!(this._layerOptions == null)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl._Str_5392))) && (this._parentCtrl.partSelectContainer.visible)))
+            if ((((!(this._layerOptions == null)) && (!(this._layerOptions._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX))) && (this._parentCtrl.partSelectContainer.visible)))
             {
                 _local_2 = (this._parentCtrl.partSelectGrid.getGridItemAt((k.partIndex + 1)) as IWindowContainer);
                 this._Str_17901(_local_2, k);
@@ -239,7 +239,7 @@
             {
                 return null;
             }
-            if (k._Str_3617 == BadgeLayerCtrl._Str_5392)
+            if (k._Str_3617 == BadgeLayerCtrl.BASE_LAYER_INDEX)
             {
                 if (((!(this._badgeBaseParts == null)) && (k.partIndex < this._badgeBaseParts.length)))
                 {

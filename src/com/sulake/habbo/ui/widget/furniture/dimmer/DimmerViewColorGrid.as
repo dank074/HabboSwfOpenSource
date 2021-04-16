@@ -42,7 +42,7 @@
             this._colorCellSelected = null;
         }
 
-        public function _Str_6965(k:int):void
+        public function setSelectedColorIndex(k:int):void
         {
             if (this._gridWindow == null)
             {
@@ -143,7 +143,7 @@
         private function onClick(k:WindowMouseEvent):void
         {
             var _local_2:int = this._gridWindow.getGridItemIndex((k.target as IWindow));
-            this._Str_6965(_local_2);
+            this.setSelectedColorIndex(_local_2);
             this._view._Str_4246 = _local_2;
         }
 

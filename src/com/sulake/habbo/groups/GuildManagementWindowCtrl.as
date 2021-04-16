@@ -190,26 +190,26 @@
                 }
                 if (!this._primaryColorCtrl.isInitialized)
                 {
-                    this._primaryColorCtrl._Str_16890(this.getStepContainer(VIEW_COLORS), "guild_primary_color_selector", this._manager.guildEditorData._Str_17665);
+                    this._primaryColorCtrl.createAndAttach(this.getStepContainer(VIEW_COLORS), "guild_primary_color_selector", this._manager.guildEditorData._Str_17665);
                     if (this._data.exists)
                     {
-                        this._primaryColorCtrl._Str_6434(this._data.primaryColorId);
+                        this._primaryColorCtrl.setSelectedColorById(this._data.primaryColorId);
                     }
                     else
                     {
-                        this._primaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingPrimaryColorId(this._badgeEditorCtrl.primaryColorIndex));
+                        this._primaryColorCtrl.setSelectedColorById(this._manager.guildEditorData.findMatchingPrimaryColorId(this._badgeEditorCtrl.primaryColorIndex));
                     }
                 }
                 if (!this._secondaryColorCtrl.isInitialized)
                 {
-                    this._secondaryColorCtrl._Str_16890(this.getStepContainer(VIEW_COLORS), "guild_secondary_color_selector", this._manager.guildEditorData._Str_16298);
+                    this._secondaryColorCtrl.createAndAttach(this.getStepContainer(VIEW_COLORS), "guild_secondary_color_selector", this._manager.guildEditorData._Str_16298);
                     if (this._data.exists)
                     {
-                        this._secondaryColorCtrl._Str_6434(this._data.secondaryColorId);
+                        this._secondaryColorCtrl.setSelectedColorById(this._data.secondaryColorId);
                     }
                     else
                     {
-                        this._secondaryColorCtrl._Str_6434(this._manager.guildEditorData.findMatchingSecondaryColorId(this._badgeEditorCtrl.secondaryColorIndex));
+                        this._secondaryColorCtrl.setSelectedColorById(this._manager.guildEditorData.findMatchingSecondaryColorId(this._badgeEditorCtrl.secondaryColorIndex));
                     }
                 }
                 this._window.findChildByName("reset_colors").visible = this._data.exists;
@@ -272,7 +272,7 @@
             }
             if (this._primaryColorCtrl.isInitialized)
             {
-                _local_3 = this._primaryColorCtrl._Str_10058();
+                _local_3 = this._primaryColorCtrl.getSelectedColorData();
                 _local_4 = this._window.findChildByName("badge_preview_primary_color_top");
                 if (((!(_local_3 == null)) && (!(_local_4 == null))))
                 {
@@ -281,7 +281,7 @@
             }
             if (this._secondaryColorCtrl.isInitialized)
             {
-                _local_5 = this._secondaryColorCtrl._Str_10058();
+                _local_5 = this._secondaryColorCtrl.getSelectedColorData();
                 _local_6 = this._window.findChildByName("badge_preview_secondary_color_top");
                 if (((!(_local_5 == null)) && (!(_local_6 == null))))
                 {
@@ -385,8 +385,8 @@
             ITextWindow(this._window.findChildByName("desc_txt")).text = this._data.groupDesc;
             this.prepareRoomSelection();
             this._badgeEditorCtrl.resetLayerOptions(this._data.badgeSettings);
-            this._primaryColorCtrl._Str_6434(this._data.primaryColorId);
-            this._secondaryColorCtrl._Str_6434(this._data.secondaryColorId);
+            this._primaryColorCtrl.setSelectedColorById(this._data.primaryColorId);
+            this._secondaryColorCtrl.setSelectedColorById(this._data.secondaryColorId);
             this._settingsCtrl.refresh(this._data);
         }
 
@@ -412,11 +412,11 @@
             {
                 if (this._primaryColorCtrl.isInitialized)
                 {
-                    this._primaryColorCtrl._Str_6434(this._data.primaryColorId);
+                    this._primaryColorCtrl.setSelectedColorById(this._data.primaryColorId);
                 }
                 if (this._secondaryColorCtrl.isInitialized)
                 {
-                    this._secondaryColorCtrl._Str_6434(this._data.secondaryColorId);
+                    this._secondaryColorCtrl.setSelectedColorById(this._data.secondaryColorId);
                 }
             }
         }
@@ -567,7 +567,7 @@
                     this._badgeEditorCtrl.onViewChange();
                     return true;
                 case VIEW_COLORS:
-                    if (((this._primaryColorCtrl._Str_10058() == null) || (this._secondaryColorCtrl._Str_10058() == null)))
+                    if (((this._primaryColorCtrl.getSelectedColorData() == null) || (this._secondaryColorCtrl.getSelectedColorData() == null)))
                     {
                         this.showAlert("${group.edit.error.title}", "${group.edit.error.no.color.selected}");
                         return false;
@@ -599,8 +599,8 @@
                     this._manager.events.dispatchEvent(new GuildSettingsChangedInManageEvent(GuildSettingsChangedInManageEvent.GSCIME_GUILD_VISUAL_SETTINGS_CHANGED, this._data.groupId));
                     return;
                 case VIEW_COLORS:
-                    _local_4 = ((this._primaryColorCtrl.isInitialized) ? this._primaryColorCtrl._Str_15044() : this._data.primaryColorId);
-                    _local_5 = ((this._secondaryColorCtrl.isInitialized) ? this._secondaryColorCtrl._Str_15044() : this._data.secondaryColorId);
+                    _local_4 = ((this._primaryColorCtrl.isInitialized) ? this._primaryColorCtrl.getSelectedColorId() : this._data.primaryColorId);
+                    _local_5 = ((this._secondaryColorCtrl.isInitialized) ? this._secondaryColorCtrl.getSelectedColorId() : this._data.secondaryColorId);
                     this._manager.send(new UpdateGuildColorsMessageComposer(this._data.groupId, _local_4, _local_5));
                     this._manager.events.dispatchEvent(new GuildSettingsChangedInManageEvent(GuildSettingsChangedInManageEvent.GSCIME_GUILD_VISUAL_SETTINGS_CHANGED, this._data.groupId));
                     return;
@@ -617,8 +617,8 @@
             var _local_2:String = ITextFieldWindow(this._window.findChildByName("desc_txt")).text;
             var _local_3:RoomEntryData = this.resolveBaseRoom();
             var _local_4:Array = ((this._badgeEditorCtrl.isIntialized) ? this._badgeEditorCtrl.getBadgeSettings() : this._data.badgeSettings);
-            var _local_5:int = ((this._primaryColorCtrl.isInitialized) ? this._primaryColorCtrl._Str_15044() : this._data.primaryColorId);
-            var _local_6:int = ((this._secondaryColorCtrl.isInitialized) ? this._secondaryColorCtrl._Str_15044() : this._data.secondaryColorId);
+            var _local_5:int = ((this._primaryColorCtrl.isInitialized) ? this._primaryColorCtrl.getSelectedColorId() : this._data.primaryColorId);
+            var _local_6:int = ((this._secondaryColorCtrl.isInitialized) ? this._secondaryColorCtrl.getSelectedColorId() : this._data.secondaryColorId);
             this._alertedBaseRoomId = 0;
             this._manager.send(new CreateGuildMessageComposer(k, _local_2, _local_3.roomId, _local_5, _local_6, _local_4));
         }
@@ -708,9 +708,9 @@
         {
             var _local_3:GuildColorData;
             var _local_2:IWindow = this._window.findChildByName("guild_color_primary_color_top");
-            if (((((!(_local_2 == null)) && (!(this._manager.guildEditorData == null))) && (k._Str_4246 >= 0)) && (k._Str_4246 <= this._manager.guildEditorData._Str_17665.length)))
+            if (((((!(_local_2 == null)) && (!(this._manager.guildEditorData == null))) && (k.selectedColorIndex >= 0)) && (k.selectedColorIndex <= this._manager.guildEditorData._Str_17665.length)))
             {
-                _local_3 = this._manager.guildEditorData._Str_17665[k._Str_4246];
+                _local_3 = this._manager.guildEditorData._Str_17665[k.selectedColorIndex];
                 _local_2.color = _local_3.color;
             }
         }
@@ -719,9 +719,9 @@
         {
             var _local_3:GuildColorData;
             var _local_2:IWindow = this._window.findChildByName("guild_color_secondary_color_top");
-            if ((((!(this._manager.guildEditorData == null)) && (k._Str_4246 >= 0)) && (k._Str_4246 <= this._manager.guildEditorData._Str_16298.length)))
+            if ((((!(this._manager.guildEditorData == null)) && (k.selectedColorIndex >= 0)) && (k.selectedColorIndex <= this._manager.guildEditorData._Str_16298.length)))
             {
-                _local_3 = this._manager.guildEditorData._Str_16298[k._Str_4246];
+                _local_3 = this._manager.guildEditorData._Str_16298[k.selectedColorIndex];
                 _local_2.color = _local_3.color;
             }
         }

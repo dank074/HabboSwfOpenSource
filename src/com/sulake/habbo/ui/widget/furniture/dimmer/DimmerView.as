@@ -278,7 +278,7 @@
             this._selectedColorIndex = this.colors.indexOf(_local_2.color);
             if (this._colorGrid != null)
             {
-                this._colorGrid._Str_6965(this._selectedColorIndex);
+                this._colorGrid.setSelectedColorIndex(this._selectedColorIndex);
             }
             this._Str_7660 = _local_2.type;
             this._widget._Str_12547();
@@ -361,7 +361,7 @@
             this._selectedColorIndex = k;
             if (this._colorGrid != null)
             {
-                this._colorGrid._Str_6965(k);
+                this._colorGrid.setSelectedColorIndex(k);
             }
             this._widget._Str_12547();
         }

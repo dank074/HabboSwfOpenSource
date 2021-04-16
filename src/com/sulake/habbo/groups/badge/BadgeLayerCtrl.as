@@ -14,8 +14,8 @@
 
     public class BadgeLayerCtrl 
     {
-        public static var _Str_5392:int = 0;
-        public static var _Str_17304:String = "part_edit_list";
+        public static var BASE_LAYER_INDEX:int = 0;
+        public static var PARENT_CONTAINER_NAME:String = "part_edit_list";
 
         private var _manager:HabboGroupsManager;
         private var _parentCtrl:BadgeEditorCtrl;
@@ -47,13 +47,13 @@
             {
                 return;
             }
-            var k:IItemListWindow = (this._parentCtrl.partEditContainer.findChildByName(_Str_17304) as IItemListWindow);
+            var k:IItemListWindow = (this._parentCtrl.partEditContainer.findChildByName(PARENT_CONTAINER_NAME) as IItemListWindow);
             this._layerWindow = (this._manager.getXmlWindow("badge_layer") as IWindowContainer);
             var _local_2:IWindowContainer = (this._layerWindow.findChildByName("preview_container") as IWindowContainer);
             this._partSelectImage = (_local_2.findChildByName("part_preview") as IBitmapWrapperWindow);
             this._partSelectImage.bitmap = this._manager.getButtonImage("badge_part_add");
             this._partSelectButton = (_local_2.findChildByName("part_button") as IButtonWindow);
-            this._partSelectButton.procedure = this._Str_24869;
+            this._partSelectButton.procedure = this.onPartPreviewButtonClick;
             this._positionContainer = (this._layerWindow.findChildByName("position_container") as IWindowContainer);
             this._positionPicker = (this._positionContainer.findChildByName("position_picker") as IBitmapWrapperWindow);
             this._positionPicker.bitmap = this._manager.getButtonImage("position_picker");
@@ -66,11 +66,11 @@
             }
             else
             {
-                this._positionGrid.procedure = this._Str_22712;
+                this._positionGrid.procedure = this.onPositionGridClick;
             }
-            this._colorGridCtrl = new ColorGridCtrl(this._manager, this._Str_24879);
-            this._colorGridCtrl._Str_16890(this._layerWindow, "color_selector", this._manager.guildEditorData._Str_9008);
-            if (this._layerOptions._Str_3617 == _Str_5392)
+            this._colorGridCtrl = new ColorGridCtrl(this._manager, this.onColorSelected);
+            this._colorGridCtrl.createAndAttach(this._layerWindow, "color_selector", this._manager.guildEditorData._Str_9008);
+            if (this._layerOptions._Str_3617 == BASE_LAYER_INDEX)
             {
                 k.addListItem(this._layerWindow);
             }
@@ -115,12 +115,12 @@
             this._layerOptions = k.clone();
             if (!this._layerOptions._Str_22335(_local_3))
             {
-                this._Str_21129(false);
+                this.updatePositionPicker(false);
                 _local_2 = true;
             }
             if (_local_3.colorIndex != this._layerOptions.colorIndex)
             {
-                this._colorGridCtrl._Str_6965(this._layerOptions.colorIndex, false);
+                this._colorGridCtrl.setSelectedColorIndex(this._layerOptions.colorIndex, false);
                 this._layerOptions.colorIndex = this._colorGridCtrl._Str_4246;
                 _local_2 = true;
             }
@@ -152,7 +152,7 @@
             this._parentCtrl.onPartChanged(this);
         }
 
-        private function _Str_21129(k:Boolean=true):void
+        private function updatePositionPicker(k:Boolean=true):void
         {
             this._positionPicker.x = ((this._layerOptions._Str_7460 * 14) + 1);
             this._positionPicker.y = ((this._layerOptions._Str_8051 * 14) + 1);
@@ -162,7 +162,7 @@
             }
         }
 
-        private function _Str_22712(k:WindowEvent, _arg_2:IWindow):void
+        private function onPositionGridClick(k:WindowEvent, _arg_2:IWindow):void
         {
             if (((!(k.type == WindowMouseEvent.CLICK)) || (!(this._positionPicker))))
             {
@@ -171,10 +171,10 @@
             var _local_3:WindowMouseEvent = (k as WindowMouseEvent);
             this._layerOptions._Str_7460 = Math.min(2, Math.max(0, Math.floor((_local_3.localX / 14))));
             this._layerOptions._Str_8051 = Math.min(2, Math.max(0, Math.floor((_local_3.localY / 14))));
-            this._Str_21129();
+            this.updatePositionPicker();
         }
 
-        private function _Str_24869(k:WindowEvent, _arg_2:IWindow):void
+        private function onPartPreviewButtonClick(k:WindowEvent, _arg_2:IWindow):void
         {
             if (k.type != WindowMouseEvent.CLICK)
             {
@@ -183,7 +183,7 @@
             this._parentCtrl.onShowSelectPart(this);
         }
 
-        public function _Str_24879(k:ColorGridCtrl):void
+        public function onColorSelected(k:ColorGridCtrl):void
         {
             if (this._layerOptions.colorIndex != k._Str_4246)
             {

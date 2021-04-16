@@ -32,7 +32,7 @@
             this._parentCallback = _arg_2;
         }
 
-        public function get _Str_4246():int
+        public function get selectedColorIndex():int
         {
             return this._selectedColorIndex;
         }
@@ -77,7 +77,7 @@
             }
         }
 
-        public function _Str_16890(k:IWindowContainer, _arg_2:String, _arg_3:Vector.<GuildColorData>):void
+        public function createAndAttach(k:IWindowContainer, _arg_2:String, _arg_3:Vector.<GuildColorData>):void
         {
             var _local_4:GuildColorData;
             var _local_5:IWindowContainer;
@@ -99,14 +99,14 @@
                 _local_5.color = 4290689957;
                 _local_5.width = this._backgroundBitmap.width;
                 _local_5.height = this._backgroundBitmap.height;
-                this._Str_18553(_local_5, "background", this._backgroundBitmap, true, null);
-                this._Str_18553(_local_5, "foreground", this._foregroundBitmap, true, _local_4);
-                this._Str_18553(_local_5, "selected", this._selectedColorBitmap, false, null);
+                this.setGridItemBitmap(_local_5, "background", this._backgroundBitmap, true, null);
+                this.setGridItemBitmap(_local_5, "foreground", this._foregroundBitmap, true, _local_4);
+                this.setGridItemBitmap(_local_5, "selected", this._selectedColorBitmap, false, null);
                 this._colorGrid.addGridItem(_local_5);
             }
         }
 
-        private function _Str_18553(k:IWindowContainer, _arg_2:String, _arg_3:BitmapData, _arg_4:Boolean, _arg_5:GuildColorData=null):void
+        private function setGridItemBitmap(k:IWindowContainer, _arg_2:String, _arg_3:BitmapData, _arg_4:Boolean, _arg_5:GuildColorData=null):void
         {
             var _local_7:BitmapData;
             var _local_6:IBitmapWrapperWindow = (k.findChildByName(_arg_2) as IBitmapWrapperWindow);
@@ -122,7 +122,7 @@
             }
         }
 
-        public function _Str_6965(k:int, _arg_2:Boolean=true):void
+        public function setSelectedColorIndex(k:int, _arg_2:Boolean=true):void
         {
             if (k < 0)
             {
@@ -130,9 +130,9 @@
             }
             if (((!(this._selectedColorIndex == k)) && (k < this._colorGrid.numGridItems)))
             {
-                this._Str_20185(this._selectedColorIndex, false);
+                this.getBitmap(this._selectedColorIndex, false);
                 this._selectedColorIndex = k;
-                this._Str_20185(this._selectedColorIndex, true);
+                this.getBitmap(this._selectedColorIndex, true);
             }
             if (((_arg_2) && (!(this._parentCallback == null))))
             {
@@ -140,7 +140,7 @@
             }
         }
 
-        public function _Str_6434(k:int):void
+        public function setSelectedColorById(k:int):void
         {
             if (!this.isInitialized)
             {
@@ -151,17 +151,17 @@
             {
                 if (this._colorData[_local_2].id == k)
                 {
-                    this._Str_6965(_local_2);
+                    this.setSelectedColorIndex(_local_2);
                     return;
                 }
                 _local_2++;
             }
-            this._Str_6965(0);
+            this.setSelectedColorIndex(0);
         }
 
-        public function _Str_15044():int
+        public function getSelectedColorId():int
         {
-            var k:GuildColorData = this._Str_10058();
+            var k:GuildColorData = this.getSelectedColorData();
             if (k != null)
             {
                 return k.id;
@@ -169,7 +169,7 @@
             return 0;
         }
 
-        public function _Str_10058():GuildColorData
+        public function getSelectedColorData():GuildColorData
         {
             if ((((!(this._colorData == null)) && (this._selectedColorIndex >= 0)) && (this._selectedColorIndex < this._colorData.length)))
             {
@@ -193,7 +193,7 @@
             throw (new Exception((("Failed to load bitmap asset " + k) + " in ColorGridWidget")));
         }
 
-        private function _Str_20185(k:int, _arg_2:Boolean):void
+        private function getBitmap(k:int, _arg_2:Boolean):void
         {
             var _local_4:IWindow;
             if (((k < 0) || (k >= this._colorGrid.numGridItems)))
@@ -217,7 +217,7 @@
             {
                 return;
             }
-            this._Str_6965(this._colorGrid.getGridItemIndex(_arg_2));
+            this.setSelectedColorIndex(this._colorGrid.getGridItemIndex(_arg_2));
         }
     }
 }

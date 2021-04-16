@@ -57,7 +57,7 @@
         private static const _Str_18722:int = 75;
         private static const _Str_16783:int = 50;
 
-        private var _Str_2449:int;
+        private var _roomId:int;
         private var _Str_2366:int;
         private var _navigator:IHabboTransitionalNavigator;
         private var _roomSettingsData:RoomSettingsData;
@@ -190,24 +190,24 @@
         public function startRoomSettingsEdit(k:int):void
         {
             this.close();
-            this._Str_2449 = k;
+            this._roomId = k;
             this._Str_2366 = this._navigator.data.enteredGuestRoom.habboGroupId;
-            this._navigator.send(new GetRoomSettingsMessageComposer(this._Str_2449));
+            this._navigator.send(new GetRoomSettingsMessageComposer(this._roomId));
             this._navigator.events.dispatchEvent(new Event(HabboRoomSettingsTrackingEvent.HABBO_ROOM_SETTINGS_TRACKING_EVENT_DEFAULT));
         }
 
         public function startRoomSettingsEditFromNavigator(k:int, _arg_2:int):void
         {
             this.close();
-            this._Str_2449 = k;
+            this._roomId = k;
             this._Str_2366 = _arg_2;
-            this._navigator.send(new GetRoomSettingsMessageComposer(this._Str_2449));
+            this._navigator.send(new GetRoomSettingsMessageComposer(this._roomId));
             this._navigator.events.dispatchEvent(new Event(HabboRoomSettingsTrackingEvent.HABBO_ROOM_SETTINGS_TRACKING_EVENT_DEFAULT));
         }
 
         public function onRoomSettings(k:RoomSettingsData):void
         {
-            if (k.roomId != this._Str_2449)
+            if (k.roomId != this._roomId)
             {
                 return;
             }
@@ -279,12 +279,12 @@
 
         private function _Str_17169(k:int):Boolean
         {
-            return (k == this._Str_2449) && (!(this._roomSettingsData == null));
+            return (k == this._roomId) && (!(this._roomSettingsData == null));
         }
 
         private function _Str_20138(k:int):Boolean
         {
-            return (k == this._Str_2449) && (!(this._roomSettingsData == null));
+            return (k == this._roomId) && (!(this._roomSettingsData == null));
         }
 
         private function _Str_14177():void
@@ -305,7 +305,7 @@
 
         public function _Str_8265(k:int, _arg_2:int, _arg_3:String):void
         {
-            if (((!(k == this._Str_2449)) || (this._Str_15710 < 1)))
+            if (((!(k == this._roomId)) || (this._Str_15710 < 1)))
             {
                 return;
             }
@@ -396,7 +396,7 @@
 
         public function close():void
         {
-            this._Str_2449 = 0;
+            this._roomId = 0;
             this._Str_2366 = 0;
             this._roomSettingsData = null;
             this._Str_15710 = 0;
@@ -1053,7 +1053,7 @@
             {
                 return;
             }
-            if (this._Str_2449 == this._navigator.homeRoomId)
+            if (this._roomId == this._navigator.homeRoomId)
             {
                 this._navigator.windowManager.alert("${navigator.delete.homeroom.title}", "${navigator.delete.homeroom.body}", 0, this.onAlertClose);
                 return;
@@ -1063,7 +1063,7 @@
                 this._navigator.windowManager.alert("${group.deletebase.title}", "${group.deletebase.body}", 0, this.onAlertClose);
                 return;
             }
-            Logger.log(("[RoomSettingsCtrl.onDeleteButtonClick] " + this._Str_2449));
+            Logger.log(("[RoomSettingsCtrl.onDeleteButtonClick] " + this._roomId));
             if (this._roomSettingsData == null)
             {
                 return;
@@ -1222,7 +1222,7 @@
 
         private function _Str_25387():void
         {
-            this._navigator.send(new RemoveAllRightsMessageComposer(this._Str_2449));
+            this._navigator.send(new RemoveAllRightsMessageComposer(this._roomId));
         }
 
         private function onTab(k:WindowEvent, _arg_2:IWindow):void
@@ -1253,7 +1253,7 @@
             var _local_2:IItemListWindow = (this._window.findChildByName("moderation_banned_users") as IItemListWindow);
             var _local_3:IWindow = IWindowContainer(_local_2.getListItemAt(this._Str_7254._Str_20232)).findChildByName("user_info_region");
             var _local_4:int = _local_3.id;
-            this._navigator.send(new UnbanUserFromRoomMessageComposer(_local_4, this._Str_2449));
+            this._navigator.send(new UnbanUserFromRoomMessageComposer(_local_4, this._roomId));
         }
 
         private function _Str_20309(k:int):String
